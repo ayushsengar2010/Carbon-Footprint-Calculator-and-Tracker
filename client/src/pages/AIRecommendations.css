@@ -1,0 +1,137 @@
+.ai-recommendations {
+  min-height: calc(100vh - 70px);
+  padding: 2rem;
+}
+
+.ai-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ai-container h1 {
+  color: white;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.ai-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.ai-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.ai-card h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.ai-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.ai-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.ai-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.ai-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ai-result {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.ai-result h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.ai-content {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.ai-content p {
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
+}
+
+.ai-content p:last-child {
+  margin-bottom: 0;
+}
+
+.error-box {
+  background: #fee;
+  border: 2px solid #fcc;
+  color: #c33;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.info-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-box h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.info-box p {
+  color: #666;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .ai-recommendations {
+    padding: 1rem;
+  }
+
+  .ai-container h1 {
+    font-size: 2rem;
+  }
+
+  .ai-section {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-card {
+    padding: 1.5rem;
+  }
+}
