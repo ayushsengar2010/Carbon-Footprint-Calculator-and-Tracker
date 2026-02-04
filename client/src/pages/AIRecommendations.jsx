@@ -98,16 +98,12 @@ function AIRecommendations() {
         )}
 
         <div className="info-box">
-          <h3>💡 About AI Integration</h3>
+          <h3>💡 About Smart Insights</h3>
           <p>
-            This feature can use AI (via OpenRouter) to analyze your carbon footprint data 
-            and provide personalized, actionable recommendations. The AI considers your 
+            Our intelligent recommendation engine analyzes your carbon footprint data 
+            and provides personalized, actionable suggestions. The system considers your 
             activity patterns, emission sources, and trends to give you the most relevant 
-            suggestions for reducing your environmental impact.
-          </p>
-          <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#888' }}>
-            Note: AI features work without an API key by providing general recommendations. 
-            For personalized AI analysis, add your OpenRouter API key to the backend .env file.
+            advice for reducing your environmental impact.
           </p>
         </div>
       </div>
