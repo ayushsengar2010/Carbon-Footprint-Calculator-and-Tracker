@@ -58,3 +58,38 @@ export const getAIInsights = async () => {
   })
   return response.data
 }
+
+export const updateActivity = async (id, activityData) => {
+  const response = await axios.put(`${API_URL}/activities/${id}`, activityData, {
+    headers: getAuthHeader()
+  })
+  return response.data
+}
+
+export const getActivity = async (id) => {
+  const response = await axios.get(`${API_URL}/activities/${id}`, {
+    headers: getAuthHeader()
+  })
+  return response.data
+}
+
+export const getProfile = async () => {
+  const response = await axios.get(`${API_URL}/users/profile`, {
+    headers: getAuthHeader()
+  })
+  return response.data
+}
+
+export const updateProfile = async (profileData) => {
+  const response = await axios.put(`${API_URL}/users/profile`, profileData, {
+    headers: getAuthHeader()
+  })
+  return response.data
+}
+
+export const changePassword = async (passwordData) => {
+  const response = await axios.put(`${API_URL}/users/change-password`, passwordData, {
+    headers: getAuthHeader()
+  })
+  return response.data
+}

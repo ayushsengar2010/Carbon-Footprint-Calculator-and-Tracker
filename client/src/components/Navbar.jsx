@@ -22,7 +22,7 @@ function Navbar({ onLogout }) {
           <Link to="/statistics" className="navbar-link">Statistics</Link>
           <Link to="/ai-recommendations" className="navbar-link">AI Insights</Link>
           <div className="navbar-user">
-            <span>👤 {user.name}</span>
+            <Link to="/profile" className="navbar-link user-link">👤 {user.name}</Link>
             <button onClick={handleLogout} className="logout-btn">Logout</button>
           </div>
         </div>

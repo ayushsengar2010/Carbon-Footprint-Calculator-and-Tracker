@@ -4,8 +4,10 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import AddActivity from './pages/AddActivity'
+import EditActivity from './pages/EditActivity'
 import Statistics from './pages/Statistics'
 import AIRecommendations from './pages/AIRecommendations'
+import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 
 function App() {
@@ -49,12 +51,20 @@ function App() {
           element={isAuthenticated ? <AddActivity /> : <Navigate to="/login" />} 
         />
         <Route 
+          path="/edit-activity/:id" 
+          element={isAuthenticated ? <EditActivity /> : <Navigate to="/login" />} 
+        />
+        <Route 
           path="/statistics" 
           element={isAuthenticated ? <Statistics /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/ai-recommendations" 
           element={isAuthenticated ? <AIRecommendations /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/profile" 
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/" 

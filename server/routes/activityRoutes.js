@@ -95,6 +95,45 @@ router.get('/stats', auth, async (req, res) => {
   }
 });
 
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const { type, category, amount, unit, description } = req.body;
+
+    let carbonFootprint = 0;
+    if (emissionFactors[type] && emissionFactors[type][category]) {
+      carbonFootprint = amount * emissionFactors[type][category];
+    }
+
+    const activity = await Activity.findOneAndUpdate(
+      { _id: req.params.id, userId: req.userId },
+      { type, category, amount, unit, description, carbonFootprint },
+      { new: true }
+    );
+
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
+    }
+
+    res.json(activity);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const activity = await Activity.findOne({ _id: req.params.id, userId: req.userId });
+
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
+    }
+
+    res.json(activity);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 router.delete('/:id', auth, async (req, res) => {
   try {
     const activity = await Activity.findOne({ _id: req.params.id, userId: req.userId });

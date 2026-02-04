@@ -3,19 +3,26 @@ import { getAIRecommendations, getAIInsights } from '../utils/api'
 import './AIRecommendations.css'
 
 function AIRecommendations() {
-  const [recommendations, setRecommendations] = useState('')
-  const [insights, setInsights] = useState('')
+  const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState('recommendations')
+
+  useEffect(() => {
+    setMessages([{
+      type: 'bot',
+      content: 'Hello! I am your Carbon Footprint Assistant. Click the buttons below to get personalized recommendations or analyze your emission patterns.'
+    }])
+  }, [])
 
   const fetchRecommendations = async () => {
     setLoading(true)
-    setError('')
+    setMessages(prev => [...prev, { type: 'user', content: 'Show me recommendations to reduce my carbon footprint' }])
+    
     try {
       const data = await getAIRecommendations()
-      setRecommendations(data.recommendations)
+      setMessages(prev => [...prev, { type: 'bot', content: data.recommendations }])
     } catch (err) {
-      setError('Unable to get recommendations. Please try again later.')
+      setMessages(prev => [...prev, { type: 'bot', content: 'Sorry, I could not fetch recommendations right now. Please try again later.' }])
     } finally {
       setLoading(false)
     }
@@ -23,88 +30,108 @@ function AIRecommendations() {
 
   const fetchInsights = async () => {
     setLoading(true)
-    setError('')
+    setMessages(prev => [...prev, { type: 'user', content: 'Analyze my carbon footprint data' }])
+    
     try {
       const data = await getAIInsights()
-      setInsights(data.insights)
+      setMessages(prev => [...prev, { type: 'bot', content: data.insights }])
     } catch (err) {
-      setError('Unable to get insights. Please try again later.')
+      setMessages(prev => [...prev, { type: 'bot', content: 'Sorry, I could not analyze your data right now. Please try again later.' }])
     } finally {
       setLoading(false)
     }
   }
 
+  const clearChat = () => {
+    setMessages([{
+      type: 'bot',
+      content: 'Chat cleared. How can I help you with your carbon footprint today?'
+    }])
+  }
+
   return (
     <div className="ai-recommendations">
       <div className="ai-container">
-        <h1>🤖 AI-Powered Insights</h1>
+        <h1>🤖 AI Carbon Assistant</h1>
 
-        <div className="ai-section">
-          <div className="ai-card">
-            <h2>Personalized Recommendations</h2>
-            <p className="ai-description">
-              Get AI-generated suggestions to reduce your carbon footprint based on your activity patterns.
-            </p>
+        <div className="chat-wrapper">
+          <div className="chat-tabs">
             <button 
-              onClick={fetchRecommendations} 
-              disabled={loading}
-              className="ai-button"
+              className={`tab-btn ${activeTab === 'recommendations' ? 'active' : ''}`}
+              onClick={() => setActiveTab('recommendations')}
             >
-              {loading ? 'Generating...' : 'Get Recommendations'}
+              Recommendations
             </button>
-            
-            {recommendations && (
-              <div className="ai-result">
-                <h3>Your Recommendations:</h3>
-                <div className="ai-content">
-                  {recommendations.split('\n').map((line, index) => (
-                    <p key={index}>{line}</p>
-                  ))}
-                </div>
-              </div>
-            )}
+            <button 
+              className={`tab-btn ${activeTab === 'insights' ? 'active' : ''}`}
+              onClick={() => setActiveTab('insights')}
+            >
+              Analysis
+            </button>
           </div>
 
-          <div className="ai-card">
-            <h2>Carbon Footprint Analysis</h2>
-            <p className="ai-description">
-              Get detailed insights about your emission patterns and areas for improvement.
-            </p>
-            <button 
-              onClick={fetchInsights} 
-              disabled={loading}
-              className="ai-button"
-            >
-              {loading ? 'Analyzing...' : 'Get Insights'}
-            </button>
-            
-            {insights && (
-              <div className="ai-result">
-                <h3>Your Analysis:</h3>
-                <div className="ai-content">
-                  {insights.split('\n').map((line, index) => (
-                    <p key={index}>{line}</p>
-                  ))}
+          <div className="chat-container">
+            <div className="chat-messages">
+              {messages.map((msg, index) => (
+                <div key={index} className={`message ${msg.type}`}>
+                  {msg.type === 'bot' && <span className="bot-icon">🤖</span>}
+                  <div className="message-content">
+                    {msg.content.split('\n').map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
+                  {msg.type === 'user' && <span className="user-icon">👤</span>}
                 </div>
-              </div>
-            )}
+              ))}
+              {loading && (
+                <div className="message bot">
+                  <span className="bot-icon">🤖</span>
+                  <div className="message-content typing">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="chat-actions">
+              <button 
+                onClick={fetchRecommendations} 
+                disabled={loading}
+                className="action-btn primary"
+              >
+                💡 Get Recommendations
+              </button>
+              <button 
+                onClick={fetchInsights} 
+                disabled={loading}
+                className="action-btn secondary"
+              >
+                📊 Analyze My Data
+              </button>
+              <button 
+                onClick={clearChat}
+                disabled={loading}
+                className="action-btn clear"
+              >
+                🗑️ Clear
+              </button>
+            </div>
           </div>
         </div>
 
-        {error && (
-          <div className="error-box">
-            <p>{error}</p>
+        <div className="info-cards">
+          <div className="info-card">
+            <h3>💡 Smart Recommendations</h3>
+            <p>Get personalized tips based on your activity patterns to reduce your environmental impact.</p>
           </div>
-        )}
-
-        <div className="info-box">
-          <h3>💡 About Smart Insights</h3>
-          <p>
-            Our intelligent recommendation engine analyzes your carbon footprint data 
-            and provides personalized, actionable suggestions. The system considers your 
-            activity patterns, emission sources, and trends to give you the most relevant 
-            advice for reducing your environmental impact.
-          </p>
+          <div className="info-card">
+            <h3>📊 Data Analysis</h3>
+            <p>Understand your emission breakdown and identify your biggest areas for improvement.</p>
+          </div>
+          <div className="info-card">
+            <h3>🎯 Actionable Tips</h3>
+            <p>Receive practical suggestions you can implement today to make a real difference.</p>
+          </div>
         </div>
       </div>
     </div>
